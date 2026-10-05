@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "msow-imsanghaar-mcp"
-version = "1.1.14"
+version = "1.1.15"
 description = "MCP server for manipulating Microsoft Word documents"
 readme = "README.md"
 license = {file = "LICENSE"}
