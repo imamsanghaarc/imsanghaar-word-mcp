@@ -11,13 +11,13 @@ use them to configure a trusted publisher unless they already match your expecta
 
 If a claim is not present in the claim set, then it is rendered as MISSING.
 
-sub: repo:imamsanghaarc@296395544/imsanghaar-word-mcp@1405598499:ref:refs/tags/v1.1.12
+sub: repo:imamsanghaarc@296395544/imsanghaar-word-mcp@1405598499:ref:refs/tags/v1.1.13
 repository: imamsanghaarc/imsanghaar-word-mcp
 repository_owner: imamsanghaarc
 repository_owner_id: 296395544
-workflow_ref: imamsanghaarc/imsanghaar-word-mcp/.github/workflows/publish.yml@refs/tags/v1.1.12
-job_workflow_ref: imamsanghaarc/imsanghaar-word-mcp/.github/workflows/publish.yml@refs/tags/v1.1.12
-ref: refs/tags/v1.1.12
+workflow_ref: imamsanghaarc/imsanghaar-word-mcp/.github/workflows/publish.yml@refs/tags/v1.1.13
+job_workflow_ref: imamsanghaarc/imsanghaar-word-mcp/.github/workflows/publish.yml@refs/tags/v1.1.13
+ref: refs/tags/v1.1.13
 environment: MISSING
 See https://docs.pypi.org/trusted-publishers/troubleshooting/ for more help.
 
@@ -32,4 +32,4 @@ Read more about trusted publishers at https://docs.pypi.org/trusted-publishers/
 Read more about how this action uses trusted publishers at
 https://github.com/marketplace/actions/pypi-publish#trusted-publishing
 
-Job summary generated at run-time
+Job summary generated at run-timerea

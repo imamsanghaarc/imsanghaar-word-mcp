@@ -3,8 +3,8 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "imsanghaar-word-mcp"
-version = "1.1.13"
+name = "msow-imsanghaar-mcp"
+version = "1.1.14"
 description = "MCP server for manipulating Microsoft Word documents"
 readme = "README.md"
 license = {file = "LICENSE"}

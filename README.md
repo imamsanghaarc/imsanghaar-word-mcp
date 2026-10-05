@@ -164,7 +164,7 @@ python setup_mcp.py
   "mcpServers": {
     "word-document-server": {
       "command": "uvx",
-      "args": ["--from", "imsanghaar-word-mcp", "word_mcp_server"]
+      "args": ["--from", "msow-imsanghaar-mcp", "word_mcp_server"]
     }
   }
 }
