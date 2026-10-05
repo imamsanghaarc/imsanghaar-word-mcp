@@ -112,7 +112,21 @@ The server features a modular architecture that separates concerns into core fun
 - Python 3.11 or higher
 - pip package manager
 
-### Basic Installation
+### Install from PyPI
+
+The package is published on PyPI as [`msow-imsanghaar-mcp`](https://pypi.org/project/msow-imsanghaar-mcp/):
+
+```bash
+pip install msow-imsanghaar-mcp
+```
+
+or run it without installing via `uvx`:
+
+```bash
+uvx --from msow-imsanghaar-mcp word_mcp_server
+```
+
+### Basic Installation (from source)
 
 ```bash
 # Clone the repository
@@ -136,28 +150,11 @@ Alternatively, you can use the provided setup script which handles:
 python setup_mcp.py
 ```
 
-## Usage with Claude for Desktop
+## Usage with AI Agents
 
-### Configuration
+### Using uvx (recommended, no clone needed)
 
-#### Method 1: After Local Installation
-
-1. After installation, add the server to your Claude for Desktop configuration file:
-
-```json
-{
-  "mcpServers": {
-    "word-document-server": {
-      "command": "python",
-      "args": ["/path/to/word_mcp_server.py"]
-    }
-  }
-}
-```
-
-#### Method 2: Without Installation (Using uvx)
-
-1. You can also configure Claude for Desktop to use the server without local installation by using the uvx package manager:
+All MCP clients can start the server with the same command:
 
 ```json
 {
@@ -170,12 +167,62 @@ python setup_mcp.py
 }
 ```
 
-2. Configuration file locations:
+### Claude for Desktop
 
-   - macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
-   - Windows: `%APPDATA%\Claude\claude_desktop_config.json`
+Configuration file locations:
 
-3. Restart Claude for Desktop to load the configuration.
+- macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
+- Windows: `%APPDATA%\Claude\claude_desktop_config.json`
+
+Add:
+
+```json
+{
+  "mcpServers": {
+    "word-document-server": {
+      "command": "uvx",
+      "args": ["--from", "msow-imsanghaar-mcp", "word_mcp_server"]
+    }
+  }
+}
+```
+
+Restart Claude for Desktop to load the configuration.
+
+### OpenCode
+
+Add to `opencode.json` in your project root:
+
+```json
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "word-document-server": {
+      "type": "local",
+      "command": ["uvx", "--from", "msow-imsanghaar-mcp", "word_mcp_server"],
+      "enabled": true
+    }
+  }
+}
+```
+
+### Cursor / VS Code Copilot
+
+Use the same `uvx` command with your editor's MCP config file
+(`.cursor/mcp.json` or `.vscode/mcp.json`).
+
+### From a local source checkout
+
+```json
+{
+  "mcpServers": {
+    "word-document-server": {
+      "command": "python",
+      "args": ["/path/to/word_mcp_server.py"]
+    }
+  }
+}
+```
 
 ### Example Operations
 
