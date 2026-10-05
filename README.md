@@ -2,7 +2,21 @@
 
 <!-- mcp-name: io.github.imamsanghaarc/imsanghaar-word-mcp -->
 
+<p align="center">
+  <b>✨ Create · Read · Edit · Format Microsoft Word documents with AI — through the Model Context Protocol ✨</b>
+</p>
+
+<p align="center">
+  <a href="https://pypi.org/project/msow-imsanghaar-mcp/"><img src="https://img.shields.io/pypi/v/msow-imsanghaar-mcp?style=for-the-badge&color=0ea5e9" alt="PyPI"/></a>
+  <a href="https://github.com/imamsanghaarc/imsanghaar-word-mcp"><img src="https://img.shields.io/github/stars/imamsanghaarc/imsanghaar-word-mcp?style=for-the-badge&color=f59e0b" alt="GitHub stars"/></a>
+  <a href="https://pypi.org/project/msow-imsanghaar-mcp/"><img src="https://img.shields.io/pypi/pyversions/msow-imsanghaar-mcp?style=for-the-badge&color=8b5cf6" alt="Python versions"/></a>
+  <a href="https://github.com/imamsanghaarc/imsanghaar-word-mcp/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-10b981?style=for-the-badge" alt="License: MIT"/></a>
+  <a href="https://sanglabs.vercel.app/servers"><img src="https://img.shields.io/badge/MCP-Servers-ec4899?style=for-the-badge" alt="MCP Servers"/></a>
+</p>
+
 A Model Context Protocol (MCP) server for creating, reading, and manipulating Microsoft Word documents. This server enables AI assistants to work with Word documents through a standardized interface, providing rich document editing capabilities.
+
+> 🚀 **Quick install:** `pip install msow-imsanghaar-mcp` &nbsp;·&nbsp; 📦 **Run without installing:** `uvx --from msow-imsanghaar-mcp word_mcp_server`
 
 ## Overview
 
@@ -140,79 +154,13 @@ Alternatively, you can use the provided setup script which handles:
 python setup_mcp.py
 ```
 
-## Usage with AI Agents
+## 🔌 Connect to MCP Clients
 
-### Using uvx (recommended, no clone needed)
+Get your ready-to-use MCP connection links and server URLs at:
 
-All MCP clients can start the server with the same command:
+👉 **[https://sanglabs.vercel.app/servers](https://sanglabs.vercel.app/servers)**
 
-```json
-{
-  "mcpServers": {
-    "word-document-server": {
-      "command": "uvx",
-      "args": ["--from", "msow-imsanghaar-mcp", "word_mcp_server"]
-    }
-  }
-}
-```
-
-### Claude for Desktop
-
-Configuration file locations:
-
-- macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
-- Windows: `%APPDATA%\Claude\claude_desktop_config.json`
-
-Add:
-
-```json
-{
-  "mcpServers": {
-    "word-document-server": {
-      "command": "uvx",
-      "args": ["--from", "msow-imsanghaar-mcp", "word_mcp_server"]
-    }
-  }
-}
-```
-
-Restart Claude for Desktop to load the configuration.
-
-### OpenCode
-
-Add to `opencode.json` in your project root:
-
-```json
-{
-  "$schema": "https://opencode.ai/config.json",
-  "mcp": {
-    "word-document-server": {
-      "type": "local",
-      "command": ["uvx", "--from", "msow-imsanghaar-mcp", "word_mcp_server"],
-      "enabled": true
-    }
-  }
-}
-```
-
-### Cursor / VS Code Copilot
-
-Use the same `uvx` command with your editor's MCP config file
-(`.cursor/mcp.json` or `.vscode/mcp.json`).
-
-### From a local source checkout
-
-```json
-{
-  "mcpServers": {
-    "word-document-server": {
-      "command": "python",
-      "args": ["/path/to/word_mcp_server.py"]
-    }
-  }
-}
-```
+Copy the server entry for Claude Desktop, OpenCode, Cursor, VS Code — already configured for this package.
 
 ### Example Operations
 
