@@ -1,5 +1,7 @@
 # Office-Word-MCP-Server
 
+<!-- mcp-name: io.github.imamsanghaarc/imsanghaar-word-mcp -->
+
 A Model Context Protocol (MCP) server for creating, reading, and manipulating Microsoft Word documents. This server enables AI assistants to work with Word documents through a standardized interface, providing rich document editing capabilities.
 
 ## Overview

@@ -1,0 +1,33 @@
+Trusted publishing exchange failure:
+
+Token request failed: the server refused the request for the following reasons:
+
+invalid-pending-publisher: valid token, but project already exists
+This generally indicates a trusted publisher configuration error, but could
+also indicate an internal error on GitHub or PyPI's part.
+
+The claims rendered below are for debugging purposes only. You should not
+use them to configure a trusted publisher unless they already match your expectations.
+
+If a claim is not present in the claim set, then it is rendered as MISSING.
+
+sub: repo:imamsanghaarc@296395544/imsanghaar-word-mcp@1405598499:ref:refs/heads/main
+repository: imamsanghaarc/imsanghaar-word-mcp
+repository_owner: imamsanghaarc
+repository_owner_id: 296395544
+workflow_ref: imamsanghaarc/imsanghaar-word-mcp/.github/workflows/publish.yml@refs/heads/main
+job_workflow_ref: imamsanghaarc/imsanghaar-word-mcp/.github/workflows/publish.yml@refs/heads/main
+ref: refs/heads/main
+environment: MISSING
+See https://docs.pypi.org/trusted-publishers/troubleshooting/ for more help.
+
+You're seeing this because the action wasn't given the inputs needed to
+perform password-based or token-based authentication. If you intended to
+perform one of those authentication methods instead of trusted
+publishing, then you should double-check your secret configuration and variable
+names.
+
+Read more about trusted publishers at https://docs.pypi.org/trusted-publishers/
+
+Read more about how this action uses trusted publishers at
+https://github.com/marketplace/actions/pypi-publish#trusted-publishing
