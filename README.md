@@ -411,7 +411,6 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - [Model Context Protocol](https://modelcontextprotocol.io/) for the protocol specification
 - [python-docx](https://python-docx.readthedocs.io/) for Word document manipulation
 - [FastMCP](https://github.com/modelcontextprotocol/python-sdk) for the Python MCP implementation
-- [GongRzhe/Office-Word-MCP-Server](https://github.com/GongRzhe/Office-Word-MCP-Server) — original project this is derived from
 
 ---
 
