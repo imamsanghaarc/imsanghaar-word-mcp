@@ -10,16 +10,6 @@ Office-Word-MCP-Server implements the [Model Context Protocol](https://modelcont
 
 The server features a modular architecture that separates concerns into core functionality, tools, and utilities, making it highly maintainable and extensible for future enhancements.
 
-### Example
-
-#### Pormpt
-
-![image](https://github.com/user-attachments/assets/f49b0bcc-88b2-4509-bf50-995b9a40038c)
-
-#### Output
-
-![image](https://github.com/user-attachments/assets/ff64385d-3822-4160-8cdf-f8a484ccc01a)
-
 ## Features
 
 ### Document Management
