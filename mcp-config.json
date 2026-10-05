@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "word-document-server": {
+      "command": "python",
+      "args": [
+        "E:/Office-Word-MCP-Server-main/word_mcp_server.py"
+      ],
+      "env": {
+        "PYTHONPATH": "E:/Office-Word-MCP-Server-main",
+        "MCP_TRANSPORT": "stdio"
+      }
+    }
+  }
+}
