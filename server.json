@@ -6,12 +6,12 @@
     "url": "https://github.com/imamsanghaarc/imsanghaar-word-mcp",
     "source": "github"
   },
-  "version": "1.1.12",
+  "version": "1.1.13",
   "packages": [
     {
       "registryType": "pypi",
       "identifier": "imsanghaar-word-mcp",
-      "version": "1.1.12",
+      "version": "1.1.13",
       "transport": {
         "type": "stdio"
       }
