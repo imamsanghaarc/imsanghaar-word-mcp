@@ -12,6 +12,7 @@
   <a href="https://pypi.org/project/msow-imsanghaar-mcp/"><img src="https://img.shields.io/pypi/pyversions/msow-imsanghaar-mcp?style=for-the-badge&color=8b5cf6" alt="Python versions"/></a>
   <a href="https://github.com/imamsanghaarc/imsanghaar-word-mcp/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-10b981?style=for-the-badge" alt="License: MIT"/></a>
   <a href="https://sanglabs.vercel.app/servers"><img src="https://img.shields.io/badge/MCP-Servers-ec4899?style=for-the-badge" alt="MCP Servers"/></a>
+  <a href="https://m8ven.ai/mcp/imamsanghaarc-imsanghaar-word-mcp-1qyi7v?s=readme"><img src="https://m8ven.ai/badge/mcp/imamsanghaarc-imsanghaar-word-mcp-1qyi7v?v=fe47169a465904dd803ffdf3a25f6520" alt="M8ven Score"/></a>
 </p>
 
 A Model Context Protocol (MCP) server for creating, reading, and manipulating Microsoft Word documents. This server enables AI assistants to work with Word documents through a standardized interface, providing rich document editing capabilities.
