@@ -95,7 +95,10 @@ def register_tools():
     @mcp.tool(
         annotations=ToolAnnotations(
             title="Create Word Document",
+            readOnlyHint=False,
             destructiveHint=True,
+            idempotentHint=False,
+            openWorldHint=False,
         ),
     )
     def create_document(filename: str, title: str = None, author: str = None):
@@ -105,7 +108,10 @@ def register_tools():
     @mcp.tool(
         annotations=ToolAnnotations(
             title="Copy Word Document",
+            readOnlyHint=False,
             destructiveHint=True,
+            idempotentHint=False,
+            openWorldHint=False,
         ),
     )
     def copy_document(source_filename: str, destination_filename: str = None):
@@ -116,6 +122,9 @@ def register_tools():
         annotations=ToolAnnotations(
             title="Get Document Info",
             readOnlyHint=True,
+            destructiveHint=False,
+            idempotentHint=True,
+            openWorldHint=False,
         ),
     )
     def get_document_info(filename: str):
@@ -126,6 +135,9 @@ def register_tools():
         annotations=ToolAnnotations(
             title="Get Document Text",
             readOnlyHint=True,
+            destructiveHint=False,
+            idempotentHint=True,
+            openWorldHint=False,
         ),
     )
     def get_document_text(filename: str):
@@ -136,6 +148,9 @@ def register_tools():
         annotations=ToolAnnotations(
             title="Get Document Outline",
             readOnlyHint=True,
+            destructiveHint=False,
+            idempotentHint=True,
+            openWorldHint=False,
         ),
     )
     def get_document_outline(filename: str):
@@ -146,6 +161,9 @@ def register_tools():
         annotations=ToolAnnotations(
             title="List Available Documents",
             readOnlyHint=True,
+            destructiveHint=False,
+            idempotentHint=True,
+            openWorldHint=False,
         ),
     )
     def list_available_documents(directory: str = "."):
@@ -156,6 +174,9 @@ def register_tools():
         annotations=ToolAnnotations(
             title="Get Document XML",
             readOnlyHint=True,
+            destructiveHint=False,
+            idempotentHint=True,
+            openWorldHint=False,
         ),
     )
     def get_document_xml(filename: str):
@@ -165,6 +186,10 @@ def register_tools():
     @mcp.tool(
         annotations=ToolAnnotations(
             title="Insert Header Near Text",
+            readOnlyHint=False,
+            destructiveHint=True,
+            idempotentHint=False,
+            openWorldHint=False,
         ),
     )
     def insert_header_near_text(filename: str, target_text: str = None, header_title: str = None, position: str = 'after', header_style: str = 'Heading 1', target_paragraph_index: int = None):
@@ -174,6 +199,10 @@ def register_tools():
     @mcp.tool(
         annotations=ToolAnnotations(
             title="Insert Line Near Text",
+            readOnlyHint=False,
+            destructiveHint=True,
+            idempotentHint=False,
+            openWorldHint=False,
         ),
     )
     def insert_line_or_paragraph_near_text(filename: str, target_text: str = None, line_text: str = None, position: str = 'after', line_style: str = None, target_paragraph_index: int = None):
@@ -185,6 +214,10 @@ def register_tools():
     @mcp.tool(
         annotations=ToolAnnotations(
             title="Insert List Near Text",
+            readOnlyHint=False,
+            destructiveHint=True,
+            idempotentHint=False,
+            openWorldHint=False,
         ),
     )
     def insert_numbered_list_near_text(filename: str, target_text: str = None, list_items: list[str] = None, position: str = 'after', target_paragraph_index: int = None, bullet_type: str = 'bullet'):
@@ -194,6 +227,10 @@ def register_tools():
     @mcp.tool(
         annotations=ToolAnnotations(
             title="Add Paragraph",
+            readOnlyHint=False,
+            destructiveHint=True,
+            idempotentHint=False,
+            openWorldHint=False,
         ),
     )
     def add_paragraph(filename: str, text: str, style: str = None,
@@ -216,6 +253,10 @@ def register_tools():
     @mcp.tool(
         annotations=ToolAnnotations(
             title="Add Heading",
+            readOnlyHint=False,
+            destructiveHint=True,
+            idempotentHint=False,
+            openWorldHint=False,
         ),
     )
     def add_heading(filename: str, text: str, level: int = 1,
@@ -238,6 +279,10 @@ def register_tools():
     @mcp.tool(
         annotations=ToolAnnotations(
             title="Add Picture",
+            readOnlyHint=False,
+            destructiveHint=True,
+            idempotentHint=False,
+            openWorldHint=False,
         ),
     )
     def add_picture(filename: str, image_path: str, width: float = None):
@@ -247,6 +292,10 @@ def register_tools():
     @mcp.tool(
         annotations=ToolAnnotations(
             title="Add Table",
+            readOnlyHint=False,
+            destructiveHint=True,
+            idempotentHint=False,
+            openWorldHint=False,
         ),
     )
     def add_table(filename: str, rows: int, cols: int, data: list[list[str]] = None):
@@ -256,6 +305,10 @@ def register_tools():
     @mcp.tool(
         annotations=ToolAnnotations(
             title="Add Page Break",
+            readOnlyHint=False,
+            destructiveHint=True,
+            idempotentHint=False,
+            openWorldHint=False,
         ),
     )
     def add_page_break(filename: str):
@@ -265,7 +318,10 @@ def register_tools():
     @mcp.tool(
         annotations=ToolAnnotations(
             title="Delete Paragraph",
+            readOnlyHint=False,
             destructiveHint=True,
+            idempotentHint=False,
+            openWorldHint=False,
         ),
     )
     def delete_paragraph(filename: str, paragraph_index: int):
@@ -275,7 +331,10 @@ def register_tools():
     @mcp.tool(
         annotations=ToolAnnotations(
             title="Search and Replace",
+            readOnlyHint=False,
             destructiveHint=True,
+            idempotentHint=False,
+            openWorldHint=False,
         ),
     )
     def search_and_replace(filename: str, find_text: str, replace_text: str):
@@ -286,6 +345,10 @@ def register_tools():
     @mcp.tool(
         annotations=ToolAnnotations(
             title="Create Custom Style",
+            readOnlyHint=False,
+            destructiveHint=True,
+            idempotentHint=False,
+            openWorldHint=False,
         ),
     )
     def create_custom_style(filename: str, style_name: str, bold: bool = None,
@@ -300,6 +363,10 @@ def register_tools():
     @mcp.tool(
         annotations=ToolAnnotations(
             title="Format Text",
+            readOnlyHint=False,
+            destructiveHint=True,
+            idempotentHint=False,
+            openWorldHint=False,
         ),
     )
     def format_text(filename: str, paragraph_index: int, start_pos: int, end_pos: int,
@@ -314,6 +381,10 @@ def register_tools():
     @mcp.tool(
         annotations=ToolAnnotations(
             title="Format Table",
+            readOnlyHint=False,
+            destructiveHint=True,
+            idempotentHint=False,
+            openWorldHint=False,
         ),
     )
     def format_table(filename: str, table_index: int, has_header_row: bool = None,
@@ -325,6 +396,10 @@ def register_tools():
     @mcp.tool(
         annotations=ToolAnnotations(
             title="Set Table Cell Shading",
+            readOnlyHint=False,
+            destructiveHint=True,
+            idempotentHint=False,
+            openWorldHint=False,
         ),
     )
     def set_table_cell_shading(filename: str, table_index: int, row_index: int,
@@ -335,6 +410,10 @@ def register_tools():
     @mcp.tool(
         annotations=ToolAnnotations(
             title="Apply Alternating Row Colors",
+            readOnlyHint=False,
+            destructiveHint=True,
+            idempotentHint=False,
+            openWorldHint=False,
         ),
     )
     def apply_table_alternating_rows(filename: str, table_index: int,
@@ -342,13 +421,17 @@ def register_tools():
         """Apply alternating row colors to a table for better readability."""
         return format_tools.apply_table_alternating_rows(filename, table_index, color1, color2)
     
-    @mcp.tool(
+@mcp.tool(
         annotations=ToolAnnotations(
             title="Highlight Table Header",
+            readOnlyHint=False,
+            destructiveHint=True,
+            idempotentHint=False,
+            openWorldHint=False,
         ),
     )
     def highlight_table_header(filename: str, table_index: int,
-                             header_color: str = "4472C4", text_color: str = "FFFFFF"):
+                              header_color: str = "4472C4", text_color: str = "FFFFFF"):
         """Apply special highlighting to table header row."""
         return format_tools.highlight_table_header(filename, table_index, header_color, text_color)
     
@@ -356,6 +439,10 @@ def register_tools():
     @mcp.tool(
         annotations=ToolAnnotations(
             title="Merge Table Cells",
+            readOnlyHint=False,
+            destructiveHint=True,
+            idempotentHint=False,
+            openWorldHint=False,
         ),
     )
     def merge_table_cells(filename: str, table_index: int, start_row: int, start_col: int,
@@ -366,6 +453,10 @@ def register_tools():
     @mcp.tool(
         annotations=ToolAnnotations(
             title="Merge Cells Horizontally",
+            readOnlyHint=False,
+            destructiveHint=True,
+            idempotentHint=False,
+            openWorldHint=False,
         ),
     )
     def merge_table_cells_horizontal(filename: str, table_index: int, row_index: int,
@@ -373,13 +464,17 @@ def register_tools():
         """Merge cells horizontally in a single row."""
         return format_tools.merge_table_cells_horizontal(filename, table_index, row_index, start_col, end_col)
     
-    @mcp.tool(
+@mcp.tool(
         annotations=ToolAnnotations(
             title="Merge Cells Vertically",
+            readOnlyHint=False,
+            destructiveHint=True,
+            idempotentHint=False,
+            openWorldHint=False,
         ),
     )
     def merge_table_cells_vertical(filename: str, table_index: int, col_index: int,
-                                 start_row: int, end_row: int):
+                                  start_row: int, end_row: int):
         """Merge cells vertically in a single column."""
         return format_tools.merge_table_cells_vertical(filename, table_index, col_index, start_row, end_row)
     
@@ -387,6 +482,10 @@ def register_tools():
     @mcp.tool(
         annotations=ToolAnnotations(
             title="Set Cell Alignment",
+            readOnlyHint=False,
+            destructiveHint=True,
+            idempotentHint=False,
+            openWorldHint=False,
         ),
     )
     def set_table_cell_alignment(filename: str, table_index: int, row_index: int, col_index: int,
@@ -397,6 +496,10 @@ def register_tools():
     @mcp.tool(
         annotations=ToolAnnotations(
             title="Set Table Alignment",
+            readOnlyHint=False,
+            destructiveHint=True,
+            idempotentHint=False,
+            openWorldHint=False,
         ),
     )
     def set_table_alignment_all(filename: str, table_index: int,
@@ -408,6 +511,10 @@ def register_tools():
     @mcp.tool(
         annotations=ToolAnnotations(
             title="Protect Document",
+            readOnlyHint=False,
+            destructiveHint=True,
+            idempotentHint=False,
+            openWorldHint=False,
         ),
     )
     def protect_document(filename: str, password: str):
@@ -417,6 +524,10 @@ def register_tools():
     @mcp.tool(
         annotations=ToolAnnotations(
             title="Unprotect Document",
+            readOnlyHint=False,
+            destructiveHint=True,
+            idempotentHint=False,
+            openWorldHint=False,
         ),
     )
     def unprotect_document(filename: str, password: str):
@@ -427,6 +538,10 @@ def register_tools():
     @mcp.tool(
         annotations=ToolAnnotations(
             title="Add Footnote",
+            readOnlyHint=False,
+            destructiveHint=True,
+            idempotentHint=False,
+            openWorldHint=False,
         ),
     )
     def add_footnote_to_document(filename: str, paragraph_index: int, footnote_text: str):
@@ -436,6 +551,10 @@ def register_tools():
     @mcp.tool(
         annotations=ToolAnnotations(
             title="Add Footnote After Text",
+            readOnlyHint=False,
+            destructiveHint=True,
+            idempotentHint=False,
+            openWorldHint=False,
         ),
     )
     def add_footnote_after_text(filename: str, search_text: str, footnote_text: str,
@@ -447,6 +566,10 @@ def register_tools():
     @mcp.tool(
         annotations=ToolAnnotations(
             title="Add Footnote Before Text",
+            readOnlyHint=False,
+            destructiveHint=True,
+            idempotentHint=False,
+            openWorldHint=False,
         ),
     )
     def add_footnote_before_text(filename: str, search_text: str, footnote_text: str,
@@ -458,6 +581,10 @@ def register_tools():
     @mcp.tool(
         annotations=ToolAnnotations(
             title="Add Footnote Enhanced",
+            readOnlyHint=False,
+            destructiveHint=True,
+            idempotentHint=False,
+            openWorldHint=False,
         ),
     )
     def add_footnote_enhanced(filename: str, paragraph_index: int, footnote_text: str,
@@ -469,6 +596,10 @@ def register_tools():
     @mcp.tool(
         annotations=ToolAnnotations(
             title="Add Endnote",
+            readOnlyHint=False,
+            destructiveHint=True,
+            idempotentHint=False,
+            openWorldHint=False,
         ),
     )
     def add_endnote_to_document(filename: str, paragraph_index: int, endnote_text: str):
@@ -478,6 +609,10 @@ def register_tools():
     @mcp.tool(
         annotations=ToolAnnotations(
             title="Customize Footnote Style",
+            readOnlyHint=False,
+            destructiveHint=True,
+            idempotentHint=False,
+            openWorldHint=False,
         ),
     )
     def customize_footnote_style(filename: str, numbering_format: str = "1, 2, 3",
@@ -491,7 +626,10 @@ def register_tools():
     @mcp.tool(
         annotations=ToolAnnotations(
             title="Delete Footnote",
+            readOnlyHint=False,
             destructiveHint=True,
+            idempotentHint=False,
+            openWorldHint=False,
         ),
     )
     def delete_footnote_from_document(filename: str, footnote_id: int = None,
@@ -506,6 +644,10 @@ def register_tools():
     @mcp.tool(
         annotations=ToolAnnotations(
             title="Add Footnote Robust",
+            readOnlyHint=False,
+            destructiveHint=True,
+            idempotentHint=False,
+            openWorldHint=False,
         ),
     )
     def add_footnote_robust(filename: str, search_text: str = None,
@@ -522,6 +664,9 @@ def register_tools():
         annotations=ToolAnnotations(
             title="Validate Footnotes",
             readOnlyHint=True,
+            destructiveHint=False,
+            idempotentHint=True,
+            openWorldHint=False,
         ),
     )
     def validate_document_footnotes(filename: str):
@@ -532,7 +677,10 @@ def register_tools():
     @mcp.tool(
         annotations=ToolAnnotations(
             title="Delete Footnote Robust",
+            readOnlyHint=False,
             destructiveHint=True,
+            idempotentHint=False,
+            openWorldHint=False,
         ),
     )
     def delete_footnote_robust(filename: str, footnote_id: int = None,
@@ -548,6 +696,9 @@ def register_tools():
         annotations=ToolAnnotations(
             title="Get Paragraph Text",
             readOnlyHint=True,
+            destructiveHint=False,
+            idempotentHint=True,
+            openWorldHint=False,
         ),
     )
     def get_paragraph_text_from_document(filename: str, paragraph_index: int):
@@ -558,6 +709,9 @@ def register_tools():
         annotations=ToolAnnotations(
             title="Find Text",
             readOnlyHint=True,
+            destructiveHint=False,
+            idempotentHint=True,
+            openWorldHint=False,
         ),
     )
     def find_text_in_document(filename: str, text_to_find: str, match_case: bool = True,
@@ -570,7 +724,10 @@ def register_tools():
     @mcp.tool(
         annotations=ToolAnnotations(
             title="Convert to PDF",
+            readOnlyHint=False,
             destructiveHint=True,
+            idempotentHint=False,
+            openWorldHint=False,
         ),
     )
     def convert_to_pdf(filename: str, output_filename: str = None):
@@ -580,6 +737,10 @@ def register_tools():
     @mcp.tool(
         annotations=ToolAnnotations(
             title="Replace Block Below Header",
+            readOnlyHint=False,
+            destructiveHint=True,
+            idempotentHint=False,
+            openWorldHint=False,
         ),
     )
     def replace_paragraph_block_below_header(filename: str, header_text: str, new_paragraphs: list[str], detect_block_end_fn: str = None):
@@ -589,6 +750,10 @@ def register_tools():
     @mcp.tool(
         annotations=ToolAnnotations(
             title="Replace Block Between Anchors",
+            readOnlyHint=False,
+            destructiveHint=True,
+            idempotentHint=False,
+            openWorldHint=False,
         ),
     )
     def replace_block_between_manual_anchors(filename: str, start_anchor_text: str, new_paragraphs: list[str], end_anchor_text: str = None, match_fn: str = None, new_paragraph_style: str = None):
@@ -600,6 +765,9 @@ def register_tools():
         annotations=ToolAnnotations(
             title="Get All Comments",
             readOnlyHint=True,
+            destructiveHint=False,
+            idempotentHint=True,
+            openWorldHint=False,
         ),
     )
     def get_all_comments(filename: str):
@@ -610,6 +778,9 @@ def register_tools():
         annotations=ToolAnnotations(
             title="Get Comments by Author",
             readOnlyHint=True,
+            destructiveHint=False,
+            idempotentHint=True,
+            openWorldHint=False,
         ),
     )
     def get_comments_by_author(filename: str, author: str):
@@ -620,6 +791,9 @@ def register_tools():
         annotations=ToolAnnotations(
             title="Get Comments for Paragraph",
             readOnlyHint=True,
+            destructiveHint=False,
+            idempotentHint=True,
+            openWorldHint=False,
         ),
     )
     def get_comments_for_paragraph(filename: str, paragraph_index: int):
@@ -629,6 +803,10 @@ def register_tools():
     @mcp.tool(
         annotations=ToolAnnotations(
             title="Set Column Width",
+            readOnlyHint=False,
+            destructiveHint=True,
+            idempotentHint=False,
+            openWorldHint=False,
         ),
     )
     def set_table_column_width(filename: str, table_index: int, col_index: int,
@@ -639,6 +817,10 @@ def register_tools():
     @mcp.tool(
         annotations=ToolAnnotations(
             title="Set Column Widths",
+            readOnlyHint=False,
+            destructiveHint=True,
+            idempotentHint=False,
+            openWorldHint=False,
         ),
     )
     def set_table_column_widths(filename: str, table_index: int, widths: list[float],
@@ -649,6 +831,10 @@ def register_tools():
     @mcp.tool(
         annotations=ToolAnnotations(
             title="Set Table Width",
+            readOnlyHint=False,
+            destructiveHint=True,
+            idempotentHint=False,
+            openWorldHint=False,
         ),
     )
     def set_table_width(filename: str, table_index: int, width: float,
@@ -659,6 +845,10 @@ def register_tools():
     @mcp.tool(
         annotations=ToolAnnotations(
             title="Auto-Fit Table Columns",
+            readOnlyHint=False,
+            destructiveHint=True,
+            idempotentHint=False,
+            openWorldHint=False,
         ),
     )
     def auto_fit_table_columns(filename: str, table_index: int):
@@ -669,6 +859,10 @@ def register_tools():
     @mcp.tool(
         annotations=ToolAnnotations(
             title="Format Cell Text",
+            readOnlyHint=False,
+            destructiveHint=True,
+            idempotentHint=False,
+            openWorldHint=False,
         ),
     )
     def format_table_cell_text(filename: str, table_index: int, row_index: int, col_index: int,
@@ -682,6 +876,10 @@ def register_tools():
     @mcp.tool(
         annotations=ToolAnnotations(
             title="Set Cell Padding",
+            readOnlyHint=False,
+            destructiveHint=True,
+            idempotentHint=False,
+            openWorldHint=False,
         ),
     )
     def set_table_cell_padding(filename: str, table_index: int, row_index: int, col_index: int,
