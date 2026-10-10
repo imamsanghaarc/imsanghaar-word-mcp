@@ -2,16 +2,13 @@
 
 ## Tool Description Accuracy
 
-**M8ven finding:** "No tool handlers could be resolved, so descriptions could not be checked against behavior."
+**Status:** Resolved in the declarative-registration refactor.
 
-**Cause:** All 54 tools are decorated inside `register_tools()` in `word_document_server/main.py:91`, and each wrapper just delegates to a handler in another module (e.g. `content_tools.add_paragraph`) with no `return`-visible import of its own. Static scanners cannot resolve the wrapper → handler mapping, so they skip the check entirely.
+Tools are now registered as explicit `(name, handler, title)` entries in `_READ_ONLY_TOOLS` / `_WRITE_TOOLS` in `word_document_server/main.py`, and `_register_tool()` attaches the handler function itself to the MCP server. Each tool's `fn` resolves to a module-level function (e.g. `word_document_server.tools.content_tools.add_paragraph`) instead of a `register_tools.<locals>` closure, so static scanners can resolve every tool → handler.
 
-**What to do:**
-1. Verify each wrapper's docstring describes the same behavior as the underlying handler (the handlers in `word_document_server/tools/*.py` already have full `Args:` sections).
-2. Make the delegation statically resolvable — either copy the handler docstrings onto the wrappers or register the handler functions directly:
-   `@mcp.tool(annotations=...)` on a thin wrapper that does `return content_tools.add_paragraph(...)`
-   instead of `def add_paragraph(...)` with a re-typed signature.
-3. Re-run the M8ven scan and confirm the description-accuracy check resolves.
+Tool descriptions are read straight from the handler docstrings in `word_document_server/tools/*.py`, which carry full `Args:` sections. FastMCP parses those sections and injects per-parameter descriptions into the JSON schema. Public names, titles, parameter names, and the four hints are unchanged from the prior wrappers (verified against a captured baseline: 54/54, zero deprecation warnings).
+
+**Follow-up:** Re-run the M8ven scan and confirm the description-accuracy check now resolves handlers.
 
 ## Authentication
 

@@ -461,19 +461,53 @@ async def search_and_replace(filename: str, find_text: str, replace_text: str) -
         return f"Failed to search and replace: {str(e)}"
 
 async def insert_header_near_text_tool(filename: str, target_text: str = None, header_title: str = "", position: str = 'after', header_style: str = 'Heading 1', target_paragraph_index: int = None) -> str:
-    """Insert a header (with specified style) before or after the target paragraph. Specify by text or paragraph index."""
+    """Insert a header (with specified style) before or after the target paragraph. Specify by text or paragraph index.
+
+    Args:
+        filename: Path to the Word document
+        target_text: Text to locate the target paragraph
+        header_title: Text for the new header
+        position: 'before' or 'after' the target paragraph
+        header_style: Heading style to apply (default 'Heading 1')
+        target_paragraph_index: Paragraph index, used instead of target_text
+    """
     return insert_header_near_text(filename, target_text, header_title, position, header_style, target_paragraph_index)
 
 async def insert_numbered_list_near_text_tool(filename: str, target_text: str = None, list_items: list = None, position: str = 'after', target_paragraph_index: int = None, bullet_type: str = 'bullet') -> str:
-    """Insert a bulleted or numbered list before or after the target paragraph. Specify by text or paragraph index."""
+    """Insert a bulleted or numbered list before or after the target paragraph. Specify by text or paragraph index.
+
+    Args:
+        filename: Path to the Word document
+        target_text: Text to locate the target paragraph
+        list_items: Items to add to the list
+        position: 'before' or 'after' the target paragraph
+        target_paragraph_index: Paragraph index, used instead of target_text
+        bullet_type: 'bullet' for bullets or 'number' for a numbered list
+    """
     return insert_numbered_list_near_text(filename, target_text, list_items, position, target_paragraph_index, bullet_type)
 
 async def insert_line_or_paragraph_near_text_tool(filename: str, target_text: str = None, line_text: str = "", position: str = 'after', line_style: str = None, target_paragraph_index: int = None) -> str:
-    """Insert a new line or paragraph (with specified or matched style) before or after the target paragraph. Specify by text or paragraph index."""
+    """Insert a new line or paragraph (with specified or matched style) before or after the target paragraph. Specify by text or paragraph index.
+
+    Args:
+        filename: Path to the Word document
+        target_text: Text to locate the target paragraph
+        line_text: Text for the new line or paragraph
+        position: 'before' or 'after' the target paragraph
+        line_style: Style to apply, or None to match the target paragraph
+        target_paragraph_index: Paragraph index, used instead of target_text
+    """
     return insert_line_or_paragraph_near_text(filename, target_text, line_text, position, line_style, target_paragraph_index)
 
 async def replace_paragraph_block_below_header_tool(filename: str, header_text: str, new_paragraphs: list, detect_block_end_fn=None) -> str:
-    """Reemplaza el bloque de párrafos debajo de un encabezado, evitando modificar TOC."""
+    """Replace the block of paragraphs below a header, skipping the table of contents.
+
+    Args:
+        filename: Path to the Word document
+        header_text: Text of the header whose block is replaced
+        new_paragraphs: Replacement paragraph texts
+        detect_block_end_fn: Optional custom function to detect the end of the block
+    """
     return replace_paragraph_block_below_header(filename, header_text, new_paragraphs, detect_block_end_fn)
 
 async def replace_block_between_manual_anchors_tool(filename: str, start_anchor_text: str, new_paragraphs: list, end_anchor_text: str = None, match_fn=None, new_paragraph_style: str = None) -> str:

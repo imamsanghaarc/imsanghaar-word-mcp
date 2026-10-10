@@ -529,14 +529,16 @@ async def delete_footnote_robust_tool(
     clean_orphans: bool = True
 ) -> Dict[str, Any]:
     """
-    Delete a footnote with comprehensive cleanup.
-    
+    Delete a footnote with comprehensive cleanup and orphan removal.
+
+    Ensures complete removal from document.xml, footnotes.xml, and relationships.
+
     Args:
         filename: Path to the Word document
         footnote_id: ID of footnote to delete
         search_text: Text near footnote reference
         clean_orphans: Whether to remove orphaned content
-    
+
     Returns:
         Dict with success status, message, and optional details
     """
