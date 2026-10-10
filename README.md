@@ -355,6 +355,12 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
+## Privacy
+
+This server runs entirely on your own machine. It does not collect, store, or transmit any personal data, and it does not read documents you do not explicitly reference in a tool call.
+
+See [PRIVACY.md](PRIVACY.md) for the full privacy policy.
+
 ## Acknowledgments
 
 - [Model Context Protocol](https://modelcontextprotocol.io/) for the protocol specification

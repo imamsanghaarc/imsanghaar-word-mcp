@@ -1,39 +1,17 @@
 # Future Work
 
-## Privacy Policy
+## Tool Description Accuracy
 
-This MCP server operates entirely locally on the user's machine. It does not collect, store, or transmit any personal data. All document processing happens locally. No user data is sent to external servers. The only network-related activity is the use of standard XML namespace URIs (schemas.openxmlformats.org, www.w3.org) by the python-docx library, which are not actual network calls.
+**M8ven finding:** "No tool handlers could be resolved, so descriptions could not be checked against behavior."
 
-## Tool Test Coverage
+**Cause:** All 54 tools are decorated inside `register_tools()` in `word_document_server/main.py:91`, and each wrapper just delegates to a handler in another module (e.g. `content_tools.add_paragraph`) with no `return`-visible import of its own. Static scanners cannot resolve the wrapper → handler mapping, so they skip the check entirely.
 
-**Status:** RESOLVED - all 54/54 tools now referenced in tests (100%).
-
-**Test file:** `tests/test_all_tools.py` - 57 passing tests covering every registered tool by name.
-
-**Previous state (weak point):**
-Only 4/54 tools were actually called in tests (7%) - `create_document`, `add_paragraph`, `add_heading`, `convert_to_pdf`. The remaining imports in `test_tools.py` were print-only statements, not real test calls.
-
-**Other tests:**
-- `tests/test_all_tools.py` - covers all 54 registered tools (new)
-- `test_formatting.py` - formatting parameters for `create_document`, `add_paragraph`, `add_heading`
-- `tests/test_convert_to_pdf.py` - `convert_to_pdf` end-to-end
-- `test_tools.py` - legacy smoke script (imports only, prints status)
-
-**Run with:** `python -m pytest tests/test_all_tools.py -q`
-
-## Where We Left Off
-
-### Completed
-- Added all four hints (`readOnlyHint`, `destructiveHint`, `idempotentHint`, `openWorldHint`) to all 54 tools in `word_document_server/main.py`
-- Created `tests/test_all_tools.py` with 57 passing tests referencing all 54 tools
-
-### In Progress
-- Nothing pending
-
-### Remaining
-1. ~~Create `tests/test_all_tools.py` with tests for all 54 tools~~ (done)
-2. ~~Run the tests to verify they pass~~ (done — 57 passed)
-3. Commit and push all changes (awaiting user approval)
+**What to do:**
+1. Verify each wrapper's docstring describes the same behavior as the underlying handler (the handlers in `word_document_server/tools/*.py` already have full `Args:` sections).
+2. Make the delegation statically resolvable — either copy the handler docstrings onto the wrappers or register the handler functions directly:
+   `@mcp.tool(annotations=...)` on a thin wrapper that does `return content_tools.add_paragraph(...)`
+   instead of `def add_paragraph(...)` with a re-typed signature.
+3. Re-run the M8ven scan and confirm the description-accuracy check resolves.
 
 ## Authentication
 
@@ -46,9 +24,3 @@ Only 4/54 tools were actually called in tests (7%) - `create_document`, `add_par
 **Status:** Not implemented.
 
 **Note:** No rate limiting is in place. This is acceptable for local single-user usage but should be considered for multi-user or network-exposed deployments.
-
-## Tool Description Accuracy
-
-**Status:** Scanner limitation — "No tool handlers could be resolved, so descriptions could not be checked against behaviour."
-
-**Note:** This is a scanner limitation, not a code issue. The tool handlers exist and have proper docstrings. No action needed.
