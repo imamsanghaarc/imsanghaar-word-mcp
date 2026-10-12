@@ -4,6 +4,9 @@ services:
     runtime: python
     buildCommand: pip install .
     startCommand: word_mcp_server
+    # NOTE (v1.2.0+): browser sign-in (sanglabs.vercel.app/mcp/signup) only
+    # works on the local stdio transport. This hosted deployment rejects tool
+    # calls with an explanatory message until hosted OAuth is implemented.
     envVars:
       - key: MCP_TRANSPORT
         value: streamable-http

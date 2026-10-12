@@ -27,6 +27,7 @@ from word_document_server.tools import (
 )
 from word_document_server.tools.content_tools import replace_paragraph_block_below_header_tool
 from word_document_server.tools.content_tools import replace_block_between_manual_anchors_tool
+from word_document_server.auth import build_auth_middleware
 
 def get_transport_config():
     """
@@ -220,6 +221,9 @@ def run_server():
     
     # Register all tools
     register_tools()
+
+    # Gate every tool call behind Sang Labs browser sign-in (stdio only).
+    mcp.add_middleware(build_auth_middleware())
     
     # Print startup information
     transport_type = config['transport']

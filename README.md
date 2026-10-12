@@ -155,6 +155,35 @@ Alternatively, you can use the provided setup script which handles:
 python setup_mcp.py
 ```
 
+## 🔐 Authentication (v1.2.0+)
+
+Tool calls require a free Sang Labs account — **no API keys to copy around**.
+
+1. Register the server with your MCP client (above) and restart the client.
+2. On the **first tool call**, the server starts a local listener and opens
+   your browser at `https://sanglabs.vercel.app/mcp/signup`.
+   - Already have an account? You'll see your name and email in a card —
+     click **Continue with this account**.
+   - New here? Sign up (name, email, occupation, password), confirm your
+     email, and you'll land back on the connect page automatically.
+3. The browser hands the session to the local server, which remembers it in
+   `~/.sanglabs/word-mcp/credentials.json` and refreshes it automatically.
+   Your agent then continues the tool call by itself — ask it again if the
+   first call timed out while you were signing in.
+
+Notes:
+
+- The browser flow works with the local **stdio** transport (Claude Desktop,
+  Claude Code, Gemini CLI, OpenCode, Cursor, VS Code). The hosted
+  (HTTP) deployment does not support sign-in yet and rejects tool calls with
+  an explanatory message.
+- Sign out on this machine: `word_mcp_server --logout`
+- Troubleshooting: delete `~/.sanglabs/word-mcp/credentials.json` and make the
+  next tool call again. See `PRIVACY.md` for exactly what is sent where.
+- Environment overrides: `SANGLABS_SITE_URL`, `SANGLABS_SUPABASE_URL`,
+  `SANGLABS_SUPABASE_ANON_KEY`, `SANGLABS_CREDENTIALS_PATH`,
+  `SANGLABS_LOGIN_WAIT_SECONDS`, `SANGLABS_LOGIN_LINGER_SECONDS`.
+
 ## 🔌 Connect to MCP Clients
 
 Get your ready-to-use MCP connection links and server URLs at:
