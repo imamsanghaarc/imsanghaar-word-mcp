@@ -184,6 +184,24 @@ Notes:
   `SANGLABS_SUPABASE_ANON_KEY`, `SANGLABS_CREDENTIALS_PATH`,
   `SANGLABS_LOGIN_WAIT_SECONDS`, `SANGLABS_LOGIN_LINGER_SECONDS`.
 
+## 🚦 Rate Limiting
+
+The server protects its HTTP transports (`streamable-http`, `sse`) with a
+token-bucket rate limiter: a short burst is allowed, then requests are admitted
+at a sustained rate. It is **off for local `stdio`** and **on by default for the
+network transports**, so a public endpoint cannot be flooded.
+
+| Variable | Default | Meaning |
+| --- | --- | --- |
+| `MCP_RATE_LIMIT_ENABLED` | `auto` | `auto` (network transports only), `true`, or `false` |
+| `MCP_RATE_LIMIT_RPS` | `10` | Sustained requests per second |
+| `MCP_RATE_LIMIT_BURST` | `2 x RPS` | Maximum burst capacity |
+| `MCP_RATE_LIMIT_GLOBAL` | `false` | `true` for one shared bucket, `false` for a bucket per client |
+
+Limits are applied per client where one can be identified, and fall back to a
+single shared bucket otherwise. Exceeding the limit returns a rate-limit error
+to the caller.
+
 ## 🔌 Connect to MCP Clients
 
 Get your ready-to-use MCP connection links and server URLs at:

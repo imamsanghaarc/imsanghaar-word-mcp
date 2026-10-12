@@ -28,6 +28,7 @@ from word_document_server.tools import (
 from word_document_server.tools.content_tools import replace_paragraph_block_below_header_tool
 from word_document_server.tools.content_tools import replace_block_between_manual_anchors_tool
 from word_document_server.auth import build_auth_middleware
+from word_document_server.rate_limit import build_rate_limit_middleware
 
 def get_transport_config():
     """
@@ -222,6 +223,12 @@ def run_server():
     # Register all tools
     register_tools()
 
+    # Reject floods before any client-specific work (outermost middleware).
+    rate_limiter = build_rate_limit_middleware(config['transport'])
+    if rate_limiter is not None:
+        mcp.add_middleware(rate_limiter)
+        print(f"Rate limiting enabled ({config['transport']} transport)")
+
     # Gate every tool call behind Sang Labs browser sign-in (stdio only).
     mcp.add_middleware(build_auth_middleware())
     
@@ -262,7 +269,7 @@ def run_server():
         print("\nShutting down server...")
     except Exception as e:
         print(f"Error starting server: {e}")
-        if config['debug']:
+        if config.get('debug'):
             import traceback
             traceback.print_exc()
         sys.exit(1)

@@ -210,5 +210,9 @@ async def merge_documents(target_filename: str, source_filenames: List[str], add
 
 
 async def get_document_xml_tool(filename: str) -> str:
-    """Get the raw XML structure of a Word document."""
+    """Get the raw XML structure of a Word document.
+
+    Args:
+        filename: Path to the Word document
+    """
     return get_document_xml(filename)

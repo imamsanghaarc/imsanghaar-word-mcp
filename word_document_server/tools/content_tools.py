@@ -511,5 +511,14 @@ async def replace_paragraph_block_below_header_tool(filename: str, header_text: 
     return replace_paragraph_block_below_header(filename, header_text, new_paragraphs, detect_block_end_fn)
 
 async def replace_block_between_manual_anchors_tool(filename: str, start_anchor_text: str, new_paragraphs: list, end_anchor_text: str = None, match_fn=None, new_paragraph_style: str = None) -> str:
-    """Replace all content between start_anchor_text and end_anchor_text (or next logical header if not provided)."""
+    """Replace all content between start_anchor_text and end_anchor_text (or next logical header if not provided).
+
+    Args:
+        filename: Path to the Word document
+        start_anchor_text: Text marking the start of the block to replace
+        new_paragraphs: Replacement paragraph texts
+        end_anchor_text: Text marking the end of the block; if omitted, the next logical header is used
+        match_fn: Optional custom function to match the anchor text
+        new_paragraph_style: Optional style to apply to the replacement paragraphs
+    """
     return replace_block_between_manual_anchors(filename, start_anchor_text, new_paragraphs, end_anchor_text, match_fn, new_paragraph_style)
