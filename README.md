@@ -155,31 +155,41 @@ Alternatively, you can use the provided setup script which handles:
 python setup_mcp.py
 ```
 
-## 🔐 Authentication (v1.2.0+)
+## 🔐 Authentication
 
-Tool calls require a free Sang Labs account — **no API keys to copy around**.
+Using the server requires a free Sang Labs account — **no API keys to copy around**.
+Authentication is enforced on **every transport** (stdio, streamable-http, sse) and
+gates **all** requests: until you sign in, the server returns an authentication
+error instead of listing or running any tool.
 
 1. Register the server with your MCP client (above) and restart the client.
-2. On the **first tool call**, the server starts a local listener and opens
+2. On the **first request**, the server starts a local listener and opens
    your browser at `https://sanglabs.vercel.app/mcp/signup`.
    - Already have an account? You'll see your name and email in a card —
-     click **Continue with this account**.
+      click **Continue with this account**.
    - New here? Sign up (name, email, occupation, password), confirm your
-     email, and you'll land back on the connect page automatically.
+      email, and you'll land back on the connect page automatically.
 3. The browser hands the session to the local server, which remembers it in
    `~/.sanglabs/word-mcp/credentials.json` and refreshes it automatically.
-   Your agent then continues the tool call by itself — ask it again if the
-   first call timed out while you were signing in.
+   Your agent then continues by itself — ask it again if the first request
+   timed out while you were signing in.
 
 Notes:
 
-- The browser flow works with the local **stdio** transport (Claude Desktop,
-  Claude Code, Gemini CLI, OpenCode, Cursor, VS Code). The hosted
-  (HTTP) deployment does not support sign-in yet and rejects tool calls with
-  an explanatory message.
+- Until you sign in, **listing and running tools is refused** with a clear
+  authentication error (JSON-RPC code `-32001`) that includes the sign-in link —
+  not a bare "internal server error". Only the connection handshake
+  (`initialize`, `ping`, `server/discover`) is allowed through, so your client
+  can connect; every other request is blocked.
+- The sign-in page is **https://sanglabs.vercel.app/mcp/signup** for all
+  transports. The browser handoff runs on the loopback interface, so it works
+  for local `stdio` agents (Claude Desktop, Claude Code, Gemini CLI, OpenCode,
+  Cursor, VS Code) and for a locally-run HTTP server on the same machine. A
+  network-exposed deployment still needs a hosted OAuth/gateway layer (see
+  `PRIVACY.md`).
 - Sign out on this machine: `word_mcp_server --logout`
 - Troubleshooting: delete `~/.sanglabs/word-mcp/credentials.json` and make the
-  next tool call again. See `PRIVACY.md` for exactly what is sent where.
+  next request again. See `PRIVACY.md` for exactly what is sent where.
 - Environment overrides: `SANGLABS_SITE_URL`, `SANGLABS_SUPABASE_URL`,
   `SANGLABS_SUPABASE_ANON_KEY`, `SANGLABS_CREDENTIALS_PATH`,
   `SANGLABS_LOGIN_WAIT_SECONDS`, `SANGLABS_LOGIN_LINGER_SECONDS`.

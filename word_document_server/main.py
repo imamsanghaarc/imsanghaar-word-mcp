@@ -229,7 +229,9 @@ def run_server():
         mcp.add_middleware(rate_limiter)
         print(f"Rate limiting enabled ({config['transport']} transport)")
 
-    # Gate every tool call behind Sang Labs browser sign-in (stdio only).
+    # Gate every capability request behind Sang Labs browser sign-in.
+    # Applies on every transport: nothing is usable until the user authenticates
+    # at https://sanglabs.vercel.app/mcp/signup.
     mcp.add_middleware(build_auth_middleware())
     
     # Print startup information

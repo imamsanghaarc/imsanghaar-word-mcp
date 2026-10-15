@@ -16,7 +16,15 @@ Every tool's documented arguments were audited against its handler signature —
 
 **Status:** Partially implemented.
 
-Local `stdio` use is gated by Sang Labs browser sign-in (`word_document_server/auth.py`): the first tool call opens the sign-in page, stores the resulting Supabase session under `~/.sanglabs/word-mcp/`, and refreshes it transparently. The hosted (HTTP) transports are intentionally refused by that middleware with a "use the local server" message, so server-side authentication for a network-exposed deployment is still **not available**.
+All transports (`stdio`, `streamable-http`, `sse`) are gated by Sang Labs browser sign-in
+(`word_document_server/auth.py`): until the user signs in at
+https://sanglabs.vercel.app/mcp/signup, the server rejects **every** capability request
+(tool listing, tool calls, resources, prompts). After sign-in it stores the resulting
+Supabase session under `~/.sanglabs/word-mcp/` and refreshes it transparently. The browser
+handoff runs on the loopback interface, so it works for local stdio agents and a
+locally-run HTTP server on the same machine. A network-exposed deployment still needs a
+hosted OAuth/gateway layer — server-side authentication for a remote HTTP endpoint is
+**not available** (the loopback redirect cannot reach a browser elsewhere).
 
 ## Rate Limiting
 

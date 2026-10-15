@@ -193,7 +193,6 @@ class TestEnsureAuthenticated:
 
 class TestMiddleware:
     def test_blocks_tool_calls_until_authenticated(self, creds_file, monkeypatch):
-        monkeypatch.setenv("MCP_TRANSPORT", "stdio")
         monkeypatch.setattr(auth, "ensure_authenticated", lambda timeout=None: False)
         monkeypatch.setattr(auth, "sign_in_url", lambda: "https://sanglabs.vercel.app/mcp/signup?x=1")
         middleware = auth.build_auth_middleware()
@@ -207,7 +206,6 @@ class TestMiddleware:
         assert "sanglabs.vercel.app/mcp/signup" in str(exc.value)
 
     def test_authenticated_calls_pass_through(self, creds_file, monkeypatch):
-        monkeypatch.setenv("MCP_TRANSPORT", "stdio")
         monkeypatch.setattr(auth, "ensure_authenticated", lambda timeout=None: True)
         middleware = auth.build_auth_middleware()
 
@@ -216,8 +214,78 @@ class TestMiddleware:
 
         assert asyncio.run(middleware.on_call_tool(None, call_next)) == "tool result"
 
-    def test_hosted_transports_are_rejected(self, creds_file, monkeypatch):
+    def test_blocks_tools_list_until_authenticated(self, creds_file, monkeypatch):
+        monkeypatch.setattr(auth, "ensure_authenticated", lambda timeout=None: False)
+        monkeypatch.setattr(auth, "sign_in_url", lambda: "https://sanglabs.vercel.app/mcp/signup?x=1")
+        middleware = auth.build_auth_middleware()
+
+        class FakeContext:
+            method = None
+
+        async def call_next(context):
+            return "should not run"
+
+        for method in ("tools/list", "resources/list", "prompts/list", "tools/call"):
+            context = FakeContext()
+            context.method = method
+            with pytest.raises(Exception) as exc:
+                asyncio.run(middleware.on_request(context, call_next))
+            assert "sanglabs.vercel.app/mcp/signup" in str(exc.value)
+
+    def test_tools_list_raises_protocol_error(self, creds_file, monkeypatch):
+        # Must be an MCPError (code -32001) so hosts see the sign-in message
+        # instead of a generic "Internal server error".
+        from mcp.shared.exceptions import MCPError
+
+        monkeypatch.setattr(auth, "ensure_authenticated", lambda timeout=None: False)
+        monkeypatch.setattr(auth, "sign_in_url", lambda: "https://sanglabs.vercel.app/mcp/signup?x=1")
+        middleware = auth.build_auth_middleware()
+
+        class FakeContext:
+            method = "tools/list"
+
+        async def call_next(context):
+            return "should not run"
+
+        with pytest.raises(MCPError) as exc:
+            asyncio.run(middleware.on_request(FakeContext(), call_next))
+        assert exc.value.code == auth.AUTH_REQUIRED_CODE
+        assert "Authentication required" in exc.value.message
+        assert "sanglabs.vercel.app/mcp/signup" in exc.value.message
+
+    def test_authenticated_tools_list_passes(self, creds_file, monkeypatch):
+        monkeypatch.setattr(auth, "ensure_authenticated", lambda timeout=None: True)
+        middleware = auth.build_auth_middleware()
+
+        class FakeContext:
+            method = "tools/list"
+
+        async def call_next(context):
+            return [object()]
+
+        assert asyncio.run(middleware.on_request(FakeContext(), call_next)) is not None
+
+    def test_handshake_methods_are_exempt(self, creds_file, monkeypatch):
+        events = []
+        monkeypatch.setattr(auth, "ensure_authenticated", lambda timeout=None: events.append("auth"))
+        middleware = auth.build_auth_middleware()
+
+        class FakeContext:
+            method = None
+
+        async def call_next(context):
+            return "ok"
+
+        for method in ("initialize", "ping", "server/discover"):
+            context = FakeContext()
+            context.method = method
+            assert asyncio.run(middleware.on_request(context, call_next)) == "ok"
+        assert events == []
+
+    def test_hosted_transports_also_require_sign_in(self, creds_file, monkeypatch):
         monkeypatch.setenv("MCP_TRANSPORT", "streamable-http")
+        monkeypatch.setattr(auth, "ensure_authenticated", lambda timeout=None: False)
+        monkeypatch.setattr(auth, "sign_in_url", lambda: "https://sanglabs.vercel.app/mcp/signup")
         middleware = auth.build_auth_middleware()
 
         async def call_next(context):
@@ -225,4 +293,5 @@ class TestMiddleware:
 
         with pytest.raises(Exception) as exc:
             asyncio.run(middleware.on_call_tool(None, call_next))
-        assert "local server" in str(exc.value)
+        assert "Authentication required" in str(exc.value)
+        assert "sanglabs.vercel.app/mcp/signup" in str(exc.value)

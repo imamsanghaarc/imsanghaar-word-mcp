@@ -19,6 +19,7 @@ No API keys are involved; the credential is the user's own Sang Labs session.
 
 from __future__ import annotations
 
+import asyncio
 import base64
 import json
 import os
@@ -362,38 +363,65 @@ def reset_login_state_for_tests() -> None:
     _login_state.update({"expected_state": None, "url": None})
 
 
-def _is_local_stdio() -> bool:
-    return os.getenv("MCP_TRANSPORT", "stdio").lower() == "stdio"
+AUTH_SIGNUP_URL = f"{SITE_URL}{SIGNUP_PATH}"
+
+# Protocol methods that must never be blocked, or every host/client would be
+# unable to connect: the connection handshake, liveness pings, and the remote
+# discovery step. Everything else that exposes packaged tool/resource/prompt
+# functionality requires a signed-in Sang Labs session first.
+AUTH_EXEMPT_METHODS = frozenset({"initialize", "ping", "server/discover"})
+
+# JSON-RPC server-error range (-32000..-32099). Signals "sign in required" so a
+# host can tell the auth gate apart from an internal failure.
+AUTH_REQUIRED_CODE = -32001
+
+
+def auth_required_message() -> str:
+    """Sign-in instructions returned to the agent/user when unauthenticated."""
+    return (
+        "Authentication required — you must sign in to use the Sang Labs Word MCP. "
+        "I tried to open the sign-in page in your browser. If it did not open, visit:\n"
+        f"  {sign_in_url()}\n"
+        f"Sign in (or sign up) at {AUTH_SIGNUP_URL} and click "
+        "'Continue with this account', then try again."
+    )
 
 
 def build_auth_middleware():
-    """Creates the fastmcp middleware that hard-gates every tool call."""
+    """Creates the fastmcp middleware that hard-gates every request.
+
+    Applies to ALL transports (stdio, streamable-http, sse): until the user
+    signs in at the Sang Labs sign-in page (https://sanglabs.vercel.app/mcp/signup)
+    nothing is usable — no tool listing, no tool calls, no resource or prompt
+    access. The browser flow runs on the loopback interface, which works for
+    both stdio (local agent) and a locally-run HTTP server.
+    """
     from fastmcp.exceptions import ToolError
     from fastmcp.server.middleware import Middleware
+    from mcp.shared.exceptions import MCPError
 
     class AuthMiddleware(Middleware):
-        """Rejects tool calls until the user has signed in via the browser."""
+        """Rejects every capability request until the user has signed in."""
+
+        async def _signed_in(self) -> bool:
+            # Never block the event loop while the browser flow runs.
+            return await asyncio.to_thread(ensure_authenticated)
+
+        async def on_request(self, context, call_next):
+            if context.method in AUTH_EXEMPT_METHODS:
+                return await call_next(context)
+            if not await self._signed_in():
+                # Protocol-level error so listing/discovery requests reach the
+                # client with the sign-in message instead of an opaque
+                # "Internal server error".
+                raise MCPError(code=AUTH_REQUIRED_CODE, message=auth_required_message())
+            return await call_next(context)
 
         async def on_call_tool(self, context, call_next):
-            import asyncio
-
-            if not _is_local_stdio():
-                raise ToolError(
-                    "Authentication for the hosted (HTTP) deployment is not available yet. "
-                    "Please use the local server instead: "
-                    "uvx --from msow-imsanghaar-mcp word_mcp_server"
-                )
-
-            # Never block the event loop while the browser flow runs.
-            ok = await asyncio.to_thread(ensure_authenticated)
-            if ok:
-                return await call_next(context)
-
-            raise ToolError(
-                "Authentication required — I tried to open the Sang Labs sign-in page in "
-                f"your browser. If it did not open, visit:\n  {sign_in_url()}\n"
-                "Sign in (or sign up) and click 'Continue with this account', then ask me again."
-            )
+            if not await self._signed_in():
+                # Tool errors surface as a tool result the agent can display.
+                raise ToolError(auth_required_message())
+            return await call_next(context)
 
     return AuthMiddleware()
 
@@ -402,6 +430,10 @@ __all__ = [
     "MCP_SLUG",
     "SITE_URL",
     "SUPABASE_URL",
+    "AUTH_SIGNUP_URL",
+    "AUTH_EXEMPT_METHODS",
+    "AUTH_REQUIRED_CODE",
+    "auth_required_message",
     "build_auth_middleware",
     "credentials_path",
     "clear_credentials",
